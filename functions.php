@@ -17,3 +17,27 @@ function university_features(){
 
 add_action("after_setup_theme", 'university_features');
 
+
+/*
+I created a new file in the wp-content directory and named it unviversity-post-types.php
+It is better the code below to not be in the functions.php, because if the user decides
+to change the theme, his access to the Event Post Type will be denied
+
+<?php
+// Function for the creation of custom Post types
+function university_post_types(){
+    register_post_type('event', array(
+        'public' => true,
+        'labels' => array(
+            'name' => 'Events',
+            'add_new_item' => 'Add New Event',
+            'edit_item' => 'Edit Event',
+            'all_items' => 'All Events',
+            'singular_name' => 'Event'
+        ),
+        'menu_icon' => 'dashicons-calendar'
+    ));
+}
+
+add_action('init', 'university_post_types');
+*/
