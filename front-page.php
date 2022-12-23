@@ -27,22 +27,23 @@
              while($homePageEvents->have_posts()) {
                 // This will get the data ready for each post, each time the loop repeats itself
                 $homePageEvents->the_post(); ?>
-                <div class="event-summary">
+            <div class="event-summary">
                 <a class="event-summary__date t-center" href="#">
                     <span class="event-summary__month">Apr</span>
                     <span class="event-summary__day">02</span>
                 </a>
                 <div class="event-summary__content">
-                    <h5 class="event-summary__title headline headline--tiny"><a href="<?php the_permalink();?>"><?php the_title(); ?></a></h5>
+                    <h5 class="event-summary__title headline headline--tiny"><a
+                            href="<?php the_permalink();?>"><?php the_title(); ?></a></h5>
                     <p><?php echo wp_trim_words(get_the_content(), 18) ?><a href="<?php the_permalink();?>"
                             class="nu gray">Learn more</a></p>
                 </div>
             </div>
-                <?php }
+            <?php }
 
             ?>
 
-            
+
 
             <p class="t-center no-margin"><a href="#" class="btn btn--blue">View All Events</a></p>
         </div>
@@ -58,21 +59,27 @@
 
             while($homepagePosts->have_posts()) {
                 $homepagePosts->the_post(); ?>
-                 <div class="event-summary">
+            <div class="event-summary">
                 <a class="event-summary__date event-summary__date--beige t-center" href="<?php the_permalink(); ?>">
                     <span class="event-summary__month"><?php the_time('M');?></span>
                     <span class="event-summary__day"><?php the_time('d');?></span>
                 </a>
                 <div class="event-summary__content">
-                    <h5 class="event-summary__title headline headline--tiny"><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a>
+                    <h5 class="event-summary__title headline headline--tiny"><a
+                            href="<?php the_permalink(); ?>"><?php the_title(); ?></a>
                     </h5>
-                    <p><?php echo wp_trim_words(get_the_content(), 18); ?><a href="<?php the_permalink(); ?>" class="nu gray">Read more</a></p>
+                    <p><?php if (has_excerpt()) {
+                        the_excerpt();
+                    } else {
+                      echo wp_trim_words(get_the_content(), 18);
+                    } ?><a href="<?php the_permalink(); ?>" class="nu gray">Read more</a></p>
                 </div>
             </div>
-              <?php } wp_reset_postdata();
+            <?php } wp_reset_postdata();
             ?>
 
-            <p class="t-center no-margin"><a href="<?php echo site_url('/blog');?>" class="btn btn--yellow">View All Blog Posts</a></p>
+            <p class="t-center no-margin"><a href="<?php echo site_url('/blog');?>" class="btn btn--yellow">View All
+                    Blog Posts</a></p>
         </div>
     </div>
 </div>
