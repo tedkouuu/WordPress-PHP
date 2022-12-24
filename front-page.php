@@ -18,10 +18,28 @@
             <h2 class="headline headline--small-plus t-center">Upcoming Events</h2>
 
             <?php 
-            // I want to get 2 events from the DB
+
+            $today = date('Ymd'); // This will return the today's date
+            /*
+            I want to sort the events by their event date - the custom field.
+            Custom fields are considered as metadata.
+            If the event has passed, I don't want to display it.
+            */
              $homePageEvents = new WP_Query(array(
-                'posts_per_page' => 2,
-                'post_type' => 'event'
+                'posts_per_page' => -1,
+                'post_type' => 'event',
+                'meta_key' => 'event_date',
+                'orderby' => 'meta_value_num',
+                'order' => 'ASC',
+                'meta_query' => array(
+                    // Multiple filters to check for each element if passes the requirements
+                    array(
+                     'key' => 'event_date', 
+                     'compare' => '>=',
+                     'value' => $today,
+                     'type' => 'numeric'
+                    )
+                )
              ));
 
              while($homePageEvents->have_posts()) {
