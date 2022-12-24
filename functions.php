@@ -17,6 +17,27 @@ function university_features(){
 
 add_action("after_setup_theme", 'university_features');
 
+// Before WP sends the query off to the DB, it will give my function the last order, it will give me a chance to adjust the query
+// WP will pass me the query object so I can manipulate it 
+// Currently I am editing the default query
+function university_adjust_queries($query){
+    if (!is_admin() AND is_post_type_archive('event') AND $query->is_main_query()) { // I don't want to manipulate the back-end, only the front-end
+    $today = date('Ymd');
+    $query->set('meta_key', 'event_date');
+    $query->set('orderby', 'meta_value_num'); 
+    $query->set('order', 'ASC'); 
+    $query->set('meta_query', array(
+            array(
+         'key' => 'event_date', 
+         'compare' => '>=',
+         'value' => $today,
+         'type' => 'numeric'
+        )
+    ));
+    }
+}
+
+add_action('pre_get_posts', 'university_adjust_queries');
 
 /*
 I created a new file in the wp-content directory and named it unviversity-post-types.php
