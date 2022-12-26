@@ -21,6 +21,13 @@ add_action("after_setup_theme", 'university_features');
 // WP will pass me the query object so I can manipulate it 
 // Currently I am editing the default query
 function university_adjust_queries($query){
+
+    if (!is_admin() AND is_post_type_archive('program') AND is_main_query()) {
+        $query->set('orderby', 'title');
+        $query->set('order', 'ASC');
+        $query->set('posts_per_page', -1);
+    }
+
     if (!is_admin() AND is_post_type_archive('event') AND $query->is_main_query()) { // I don't want to manipulate the back-end, only the front-end
     $today = date('Ymd');
     $query->set('meta_key', 'event_date');
@@ -47,6 +54,7 @@ to change the theme, his access to the Event Post Type will be denied
 <?php
 // Function for the creation of custom Post types
 function university_post_types(){
+    // Event Post Type
     register_post_type('event', array(
         'supports' => array('title', 'editor', 'excerpt'),
         'rewrite' => array('slug' => 'events'),
@@ -61,6 +69,23 @@ function university_post_types(){
             'singular_name' => 'Event'
         ),
         'menu_icon' => 'dashicons-calendar'
+    ));
+
+    // Program Post Type
+    register_post_type('program', array(
+        'supports' => array('title', 'editor'),
+        'rewrite' => array('slug' => 'programs'),
+        'has_archive' => true,
+        'public' => true,
+        'show_in_rest' => true,
+        'labels' => array(
+            'name' => 'Programs',
+            'add_new_item' => 'Add New Program',
+            'edit_item' => 'Edit Program',
+            'all_items' => 'All Programs',
+            'singular_name' => 'Program'
+        ),
+        'menu_icon' => 'dashicons-awards'
     ));
 }
 
