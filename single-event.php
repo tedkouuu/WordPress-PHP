@@ -26,6 +26,19 @@ get_header();
         </p>
     </div>
     <div class="generic-content"><?php the_content(); ?></div>
+
+    <!-- Display the relationships between events and programs -->
+    <!-- If I want to see what is the return type of a function, I can use the print_r() function -->
+    <?php 
+    
+    $relatedPrograms = get_field('related_programs');
+
+    foreach($relatedPrograms as $program) {
+        echo get_the_title($program);
+    }
+    
+    ?>
+
  </div>
 
 
